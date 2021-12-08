@@ -3,8 +3,11 @@ package com.practice3d
 import android.app.Application
 import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.CameraXConfig
+import dagger.hilt.android.HiltAndroidApp
 
-class Practice3dApplication : Application(),  CameraXConfig.Provider {
+@HiltAndroidApp
+class Practice3dApplication : Application(), CameraXConfig.Provider {
+
     override fun getCameraXConfig(): CameraXConfig {
         return Camera2Config.defaultConfig()
     }

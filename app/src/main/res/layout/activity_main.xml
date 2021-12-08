@@ -1,18 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
-    <TextView
+<!--    <androidx.camera.view.PreviewView-->
+<!--        android:id="@+id/cameraPreview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+    <com.google.ar.sceneform.SceneView
+        android:id="@+id/scene"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageButton
+        android:id="@+id/lockButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/round_button"
+        android:backgroundTint="@color/transparent_gray"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:src="@drawable/lock_open_outline"
+        android:tag="unlocked"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/transparent_gray"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/chevron_down" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/container"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/transparent_gray"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:cardCornerRadius="@dimen/round_corner"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/transparent"
+                android:backgroundTint="@color/transparent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/shapeSelectionButton"
+                    android:layout_width="@dimen/round_button"
+                    android:layout_height="@dimen/round_button"
+                    android:layout_marginVertical="8dp"
+                    android:background="@drawable/round_button"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/shape_outline" />
+
+                <ImageButton
+                    android:layout_width="@dimen/round_button"
+                    android:layout_height="@dimen/round_button"
+                    android:layout_marginVertical="8dp"
+                    android:background="@drawable/round_button"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/pencil_outline" />
+
+                <ImageButton
+                    android:layout_width="@dimen/round_button"
+                    android:layout_height="@dimen/round_button"
+                    android:layout_marginVertical="8dp"
+                    android:background="@drawable/round_button"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/lightbulb_on_outline" />
+
+                <ImageButton
+                    android:layout_width="@dimen/round_button"
+                    android:layout_height="@dimen/round_button"
+                    android:layout_marginVertical="8dp"
+                    android:background="@drawable/round_button"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/camera_outline" />
+
+                <ImageButton
+                    android:layout_width="@dimen/round_button"
+                    android:layout_height="@dimen/round_button"
+                    android:layout_marginVertical="8dp"
+                    android:background="@drawable/round_button"
+                    android:backgroundTint="@color/transparent"
+                    android:src="@drawable/help_circle_outline" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomSheetContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/bottomSheet"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:background="@drawable/bottom_sheet">
+
+            <androidx.constraintlayout.motion.widget.MotionLayout
+                android:id="@+id/carouselContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutDescription="@xml/activity_main_scene">
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="gone" />
+
+                <androidx.constraintlayout.helper.widget.Carousel
+                    android:id="@+id/carousel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:carousel_forwardTransition="@+id/forward"
+                    app:carousel_backwardTransition="@+id/backward"
+                    app:carousel_previousState="@+id/previous"
+                    app:carousel_nextState="@+id/next"
+                    app:carousel_infinite="true"
+                    app:carousel_firstView="@+id/imageView1"
+                    app:constraint_referenced_ids="imageView1,imageView2,imageView3,imageView4,imageView5" />
+
+            </androidx.constraintlayout.motion.widget.MotionLayout>
+
+        </LinearLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
