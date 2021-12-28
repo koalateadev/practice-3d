@@ -1,78 +1,87 @@
 package com.practice3d.ui.display
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import com.google.ar.sceneform.Node
+import com.google.ar.sceneform.SceneView
+import com.google.ar.sceneform.math.Vector3
+import com.google.ar.sceneform.rendering.Color
+import com.google.ar.sceneform.ux.FootprintSelectionVisualizer
+import com.google.ar.sceneform.ux.TransformationSystem
+import com.practice3d.databinding.FragmentModelBinding
+import com.practice3d.ui.DragTransformableNode
+import com.practice3d.ui.MainViewModel
 
 class ModelFragment : Fragment() {
 
+    private val viewModel: MainViewModel by activityViewModels()
+    private var binding: FragmentModelBinding? = null
+    private var modelNode: Node? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentModelBinding.inflate(inflater)
+
+        return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding?.scene?.let {
+            loadScene(it)
+        }
+        viewModel.state.model.observe(this) {
+            modelNode?.renderable = it
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-//        binding.scene.resume()
+
+        binding?.scene?.resume()
     }
 
     override fun onPause() {
         super.onPause()
-//        binding.scene.pause()
+
+        binding?.scene?.pause()
     }
 
-    //    fun loadScene() {
-//        binding.scene.setTransparent(true)
-//        binding.scene.renderer?.setClearColor(Color(1f, 1f, 1f, 1f))
-//        binding.scene.setZOrderMediaOverlay(true)
-//        binding.scene.renderer?.getEnvironment()?.indirectLight?.let {
-//            it.intensity = 15_000f
-//            binding.scene.renderer?.setIndirectLight(it)
-//        }
-//        binding.scene.renderer?.setMainLight(null)
-//
-//        val ts = TransformationSystem(
-//            resources.displayMetrics,
-//            FootprintSelectionVisualizer()
-//        )
-//
-//        val transformNode = DragTransformableNode(ts)
-//        transformNode.parent = binding.scene.scene
-//        transformNode.worldPosition = Vector3(0f, 0f, -0.5f)
-//        transformNode.select()
-//
-//        modelNode = Node()
-//        modelNode?.parent = transformNode
-//        binding.scene.scene.addOnPeekTouchListener { hitTestResult, motionEvent ->
-//            try {
-//                ts.onTouch(hitTestResult, motionEvent)
-//            } catch (ex: Exception) {
-//                ex.printStackTrace()
-//            }
-//        }
-//    }
-//
-//    fun setModel(shape: Shapes) {
-//        modelNode?.let { node ->
-//            MaterialFactory.makeTransparentWithColor(this, Color(android.graphics.Color.WHITE))
-//                .thenAccept {
-//                    it.setFloat(MaterialFactory.MATERIAL_METALLIC, 0f)
-//                    it.setFloat(MaterialFactory.MATERIAL_REFLECTANCE, 0f)
-//                    it.setFloat(MaterialFactory.MATERIAL_ROUGHNESS, 1f)
-//                    val model = when(shape) {
-//                        Shapes.CYLINDER -> {
-//                            CustomShapeFactory.makeCylinder(0.15f, 0.3f, Vector3.zero(), it)
-//                        }
-//                        Shapes.SPHERE -> {
-//                            CustomShapeFactory.makeSphere(0.15f, Vector3.zero(), it)
-//                        }
-//                        Shapes.PYRAMID -> {
-//                            CustomShapeFactory.makePyramid(Vector3(0.3f, 0.3f, 0.3f), Vector3.zero(), it)
-//                        }
-//                        Shapes.CONE -> {
-//                            CustomShapeFactory.makeCone(0.15f, 0.3f, Vector3.zero(), it)
-//                        }
-//                        else -> {
-//                            CustomShapeFactory.makeCube(Vector3(0.3f, 0.3f, 0.3f), Vector3.zero(), it)
-//                        }
-//                    }
-//                    model?.isShadowCaster = true
-//                    model?.isShadowReceiver = true
-//                    node.renderable = model
-//                }
-//        }
-//    }
+    fun loadScene(scene: SceneView) {
+        scene.setTransparent(true)
+        scene.renderer?.setClearColor(Color(1f, 1f, 1f, 0f))
+        scene.setZOrderMediaOverlay(true)
+        scene.renderer?.getEnvironment()?.indirectLight?.let {
+            it.intensity = 15_000f
+            scene.renderer?.setIndirectLight(it)
+        }
+        scene.renderer?.setMainLight(null)
+        val ts = TransformationSystem(
+            resources.displayMetrics,
+            FootprintSelectionVisualizer()
+        )
+        scene.scene.addOnPeekTouchListener { hitTestResult, motionEvent ->
+            try {
+                ts.onTouch(hitTestResult, motionEvent)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+            }
+        }
+
+        val transformNode = DragTransformableNode(ts)
+        transformNode.parent = scene.scene
+        transformNode.worldPosition = Vector3(0f, 0f, -0.5f)
+        transformNode.select()
+
+        modelNode = Node()
+        modelNode?.parent = transformNode
+    }
 }

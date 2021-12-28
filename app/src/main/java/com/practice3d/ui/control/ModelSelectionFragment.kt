@@ -1,4 +1,4 @@
-package com.practice3d.ui.controller
+package com.practice3d.ui.control
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import android.widget.ImageView
 import androidx.constraintlayout.helper.widget.Carousel
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.practice3d.R
 import com.practice3d.databinding.FragmentModelSelectionBinding
 import com.practice3d.infrastructure.model.Shapes
 import com.practice3d.ui.MainViewModel

@@ -1,7 +1,6 @@
-package com.practice3d.ui.controller
+package com.practice3d.ui.control
 
 import androidx.fragment.app.Fragment
-import com.practice3d.R
 
 class CameraControllerFragment : Fragment() {
 

@@ -1,4 +1,4 @@
-package com.practice3d.ui.controller
+package com.practice3d.ui.control
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -47,8 +47,8 @@ class OptionsFragment : Fragment() {
             }
         }
 
-        viewModel.observableState.observe(this) {
-            if (it.locked) {
+        viewModel.state.locked.observe(this) {
+            if (it) {
                 binding.lockButton.setImageResource(R.drawable.lock)
             } else {
                 binding.lockButton.setImageResource(R.drawable.lock_open_outline)
