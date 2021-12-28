@@ -20,6 +20,10 @@ class MainViewModel @Inject constructor(application: Application) :
 
     val state = ViewState()
 
+    init {
+        setModel(state.shape.value!!, state.color.value!!)
+    }
+
     fun toggleLock() {
         state._locked.postValue(state.locked.value?.not())
     }
@@ -38,12 +42,19 @@ class MainViewModel @Inject constructor(application: Application) :
 
     fun setShape(shape: Shapes) {
         state._shape.postValue(shape)
-        setModel(shape)
+        setModel(shape, state.color.value!!)
     }
 
-    private fun setModel(shape: Shapes) {
+    fun setModelTransparency(alpha: Float) {
+        val prevColor = state.color.value!!
+        val newColor = Color(alpha, prevColor.r, prevColor.g, prevColor.b)
+        state._color.postValue(newColor)
+        setModel(state.shape.value!!, newColor)
+    }
+
+    private fun setModel(shape: Shapes, color: Color) {
         MaterialFactory.makeTransparentWithColor(getApplication(),
-            Color(WHITE)
+            color
         )
             .thenAccept {
 //                it.setFloat(MaterialFactory.MATERIAL_METALLIC, 0f)
@@ -79,6 +90,8 @@ class MainViewModel @Inject constructor(application: Application) :
 
         internal val _shape = MutableLiveData(Shapes.CUBE)
         val shape: LiveData<Shapes> = _shape
+        internal val _color = MutableLiveData(Color(WHITE))
+        val color: LiveData<Color> = _color
         internal val _model: MutableLiveData<ModelRenderable> = MutableLiveData()
         val model: LiveData<ModelRenderable> = _model
 

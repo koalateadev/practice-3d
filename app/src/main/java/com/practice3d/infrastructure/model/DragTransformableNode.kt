@@ -31,7 +31,6 @@ class DragRotationController(
 
     public override fun canStartTransformation(gesture: DragGesture): Boolean {
         return transformableNode.isSelected
-
     }
 
     public override fun onContinueTransformation(gesture: DragGesture) {
