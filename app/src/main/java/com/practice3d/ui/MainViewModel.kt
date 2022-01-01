@@ -1,7 +1,7 @@
 package com.practice3d.ui
 
 import android.app.Application
-import android.graphics.Color.WHITE
+import android.graphics.Color.*
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -57,9 +57,7 @@ class MainViewModel @Inject constructor(application: Application) :
             color
         )
             .thenAccept {
-//                it.setFloat(MaterialFactory.MATERIAL_METALLIC, 0f)
-//                it.setFloat(MaterialFactory.MATERIAL_REFLECTANCE, 0f)
-//                it.setFloat(MaterialFactory.MATERIAL_ROUGHNESS, 1f)
+                it.setFloat(MaterialFactory.MATERIAL_ROUGHNESS, 10f)
                 val model = when(shape) {
                     Shapes.CYLINDER -> {
                         CustomShapeFactory.makeCylinder(0.15f, 0.3f, Vector3.zero(), it)
@@ -90,7 +88,7 @@ class MainViewModel @Inject constructor(application: Application) :
 
         internal val _shape = MutableLiveData(Shapes.CUBE)
         val shape: LiveData<Shapes> = _shape
-        internal val _color = MutableLiveData(Color(WHITE))
+        internal val _color = MutableLiveData(Color(LTGRAY))
         val color: LiveData<Color> = _color
         internal val _model: MutableLiveData<ModelRenderable> = MutableLiveData()
         val model: LiveData<ModelRenderable> = _model

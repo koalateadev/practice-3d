@@ -68,11 +68,13 @@ class ModelFragment : Fragment() {
         scene.setTransparent(true)
         scene.renderer?.setClearColor(Color(1f, 1f, 1f, 0f))
         scene.setZOrderMediaOverlay(true)
+
         scene.renderer?.getEnvironment()?.indirectLight?.let {
-            it.intensity = 15_000f
+            it.intensity = 10_000f
             scene.renderer?.setIndirectLight(it)
         }
-        scene.renderer?.setMainLight(null)
+//        scene.renderer?.setIndirectLight(null)
+//        scene.renderer?.setMainLight(null)
 
         val transformNode = DragTransformableNode(ts)
         transformNode.parent = scene.scene
